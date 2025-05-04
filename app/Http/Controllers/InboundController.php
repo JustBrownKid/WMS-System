@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use App\Models\Location;
+use App\Models\Inbound;
 use Illuminate\Http\Request;
-use App\Imports\LocationImport;
-use Illuminate\Support\Facades\Log;
+use App\Imports\InboundImport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Database\QueryException;
 
-class LocationController extends Controller
+class InboundController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function index()
+    {
+        //
+        $Inbounds = Inbound::all();
+        return view('location.locationList' , compact('Inbounds'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -22,24 +26,26 @@ class LocationController extends Controller
     public function create()
     {
         //
-        
-    }       
+    }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request)
     {
-        $import = new LocationImport;
+        $import = new InboundImport;
+
 
         Excel::import($import, $request->file('file'));
 
         if (!empty($import->invalidRows)) {
             session(['invalid_rows' => $import->invalidRows]);
-            return redirect()->route('location.downloadInvalid');
+            return redirect()->route('inbounds.downloadInvalid');
         }
 
         return back()->with('success', 'Locations imported successfully.');
-
+        
     }
-
 
     public function downloadInvalid()
     {
@@ -49,7 +55,7 @@ class LocationController extends Controller
             return back()->with('error', 'No invalid rows to download.');
         }
 
-        $fileName = 'invalid_inbound_data.csv';
+        $fileName = 'invalid_data.csv';
         $headers = array_keys($invalidRows[0]);
 
         $callback = function () use ($headers, $invalidRows) {
@@ -69,12 +75,10 @@ class LocationController extends Controller
             'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
         ]);
     }
-
-
     /**
      * Display the specified resource.
      */
-    public function show(Location $location)
+    public function show(Inbound $inbound)
     {
         //
     }
@@ -82,36 +86,23 @@ class LocationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Inbound $inbound)
     {
-        $location = Location::find($id);
-        return view('location.locationEdit', compact('location'));
+        //
     }
-
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Inbound $inbound)
     {
-        $validatedData = $request->validate([
-            'warehouse_name' => 'required|string|max:255',
-            'code' => 'required|string|max:100',
-        ]);
-
-        $location = Location::find($id);
-
-        $location->update([
-            'warehouse_name' => $validatedData['warehouse_name'],
-            'code' => $validatedData['code'],
-        ]);
-        return redirect()->route('location.list')->with('success', 'Location updated successfully!');
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Location $location)
+    public function destroy(Inbound $inbound)
     {
         //
     }

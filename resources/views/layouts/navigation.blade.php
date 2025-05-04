@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('location.list')" :active="request()->routeIs('location')">
                         {{ __('Location') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('inbounds')" :active="request()->routeIs('location')">
+                        {{ __('Inbound') }}
+                    </x-nav-link>
                 </div>
             </div>
 

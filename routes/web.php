@@ -3,6 +3,7 @@
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InboundController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationController;
 
@@ -18,6 +19,17 @@ Route::get('location/download-invalid', [LocationController::class, 'downloadInv
 Route::get('/location/list', [LocationController::class, 'index'])->name('location.list');
 Route::get('/location/{id}/edit', [LocationController::class, 'edit'])->name('location.edit');
 Route::put('/location/{id}/edit', [LocationController::class, 'update'])->name('location.update');
+
+
+
+Route::get('/inbounds',function(){
+    return view('Inbound.Create');})->name('inbounds');
+Route::post('inbounds/import', [InboundController::class, 'store'])->name('inbounds.store');
+Route::get('inbounds/download-invalid', [InboundController::class, 'downloadInvalid'])->name('inbounds.downloadInvalid');
+Route::get('/location/list', [InboundController::class, 'index'])->name('inbounds.list');
+Route::get('/location/{id}/edit', [InboundController::class, 'edit'])->name('inbounds.edit');
+Route::put('/location/{id}/edit', [InboundController::class, 'update'])->name('inbounds.update');
+
 
 
 Route::get('/dashboard', function () {

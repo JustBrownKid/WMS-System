@@ -2,8 +2,8 @@
 namespace App\Imports;
 
 use App\Models\Location;
-use Maatwebsite\Excel\Concerns\ToModel; // Make sure to import ToModel
-use Maatwebsite\Excel\Concerns\WithHeadingRow; // Import WithHeadingRow
+use Maatwebsite\Excel\Concerns\ToModel; 
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Facades\Session;
 
 class LocationImport implements ToModel, WithHeadingRow
