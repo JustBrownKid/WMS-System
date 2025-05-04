@@ -20,16 +20,15 @@ class UsersExport implements FromCollection, WithHeadings
     }
 
     /**
-     * Return the headings for the Excel file.
-     *
+         *
      * @return array
      */
     public function headings(): array
     {
         return [
-            'Name',  // Header for the first column
-            'Email',  // Header for the second column
-            'Created At',  // Header for the third column (or use 'Updated At' if applicable)
+            'Name', 
+            'Email', 
+            'Created At', 
         ];
     }
 }
