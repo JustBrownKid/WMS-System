@@ -8,7 +8,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-gray-900 text-gray-200 min-h-screen">
-<nav class="bg-gray-800 text-white shadow">
+<nav class="bg-gray-800 text-white shadow  px-20">
   <div class="container mx-auto px-4 py-4 flex items-center justify-between">
 
     <!-- Breadcrumb -->

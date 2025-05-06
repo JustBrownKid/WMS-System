@@ -26,7 +26,7 @@
 
     </div>
    
-<nav class="bg-gray-800 text-white shadow">
+<nav class="bg-gray-800 text-white shadow  px-20">
   <div class="container mx-auto px-4 py-4 flex items-center justify-between">
 
     <!-- Breadcrumb -->
@@ -60,6 +60,7 @@
 
     <!-- Upload Form -->
     <div class="max-w-3xl mx-auto mt-20 bg-gray-800 p-6 rounded-lg shadow-lg">
+       <h1 class='mb-3 text-center text-bold'>Uplode User Data File</h1>
         <form action="{{ route('location.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 

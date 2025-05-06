@@ -15,6 +15,12 @@ class LocationController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function index()
+    {
+        //
+        $locations = Location::all();
+        return view('location.locationList' , compact('locations'));
+    }
 
     /**
      * Show the form for creating a new resource.

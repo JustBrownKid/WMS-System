@@ -16,7 +16,8 @@ class InboundController extends Controller
     {
         //
         $Inbounds = Inbound::all();
-        return view('location.locationList' , compact('Inbounds'));
+        return view('inbound.List', compact('Inbounds')); 
+
     }
 
 
@@ -43,7 +44,7 @@ class InboundController extends Controller
             return redirect()->route('inbounds.downloadInvalid');
         }
 
-        return back()->with('success', 'Locations imported successfully.');
+        return back()->with('success', ' Imported successfully.');
         
     }
 
@@ -86,9 +87,12 @@ class InboundController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Inbound $inbound)
+    public function edit($id)
     {
         //
+        $inbound = Inbound::find($id);
+        return view('inbound.Edit', compact('inbound')); 
+
     }
 
     /**

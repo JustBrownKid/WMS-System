@@ -9,7 +9,7 @@
 </head>
 <body class="bg-gray-900 text-gray-200 ">
 
-<nav class="bg-gray-800 fixed top-0 w-full text-white shadow z-20">
+<nav class="bg-gray-800 fixed top-0 w-full text-white shadow z-20  px-20">
     <div class="container mx-auto px-4 py-4 flex items-center justify-between">
         <!-- Breadcrumb -->
         <ol class="flex text-sm font-medium space-x-2 text-gray-300">
@@ -47,7 +47,7 @@
         </div>
     @endif
 
-    <div class="border border-gray-700 rounded-lg overflow-hidden mt-16">
+    <div class="border border-gray-700 rounded-lg overflow-hidden mt-16 mx-20">
         <table class="min-w-full text-sm text-left text-gray-200">
             <thead class="bg-gray-700 text-xs uppercase tracking-wider">
                 <tr>

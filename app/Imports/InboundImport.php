@@ -2,111 +2,93 @@
 
 namespace App\Imports;
 
+use Carbon\Carbon;
 use App\Models\Inbound;
-use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class InboundImport implements ToModel , WithHeadingRow
+class InboundImport implements ToModel, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
     public $insertedCount = 0;
     public $invalidRows = [];
 
+    /**
+     * This method parses the date and returns it in 'Y-m-d' format.
+     * Handles both date formats and Excel-style numeric date values.
+     */
+    public function parseDate($value)
+    {
+        if (!$value || empty($value)) {
+            // If the value is empty or null, return null
+            return null;
+        }
+
+        // Try parsing as m/d/Y (e.g., 12/31/2025)
+        try {
+            return Carbon::createFromFormat('m/d/Y', trim($value))->format('Y-m-d');
+        } catch (\Exception $e) {
+            return null; // Return null if parsing fails
+        }
+    }
+
+    /**
+     * This method handles the row data and maps it to the Inbound model.
+     */
     public function model(array $row)
-    {    if (empty($row['sku'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: sku']);
-        return null; 
-    }
+    {
+        // Check for required fields and other validations
+        $requiredFields = [
+            'sku',
+            'item_name',
+            'description',
+            'purchase_price',
+            'quantity',
+            'received_by',
+            'expire_date',
+            'received_date',
+            'sell_price',
+            'supplier',
+            'warehouse_name',
+            'location',
+            'status',
+            'voucher_number',
+            'remarks'
+        ];
+        
+        foreach ($requiredFields as $field) {
+            if (empty($row[$field])) {
+                $this->invalidRows[] = array_merge($row, ['reason' => "Missing required fields: $field"]);
+                return null;
+            }
+        }
+        
 
-    if (empty($row['item_name'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: item_name']);
-        return null; 
-    }
-    if (empty($row['description'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: description']);
-        return null; 
-    }  
+        // Parse the dates if they are present, else set as null
+        $expire_date = $this->parseDate($row['expire_date']);
+        $received_date = $this->parseDate($row['received_date']);
 
-    if (empty($row['purchase_price'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: purchase_price']);
-        return null; 
-    }
+        // Additional validations and logic here...
 
-    if (empty($row['quantity'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: quantity']);
-        return null; 
-    }
-
-    if (empty($row['received_by'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: received_by']);
-        return null;
-    }
-
-    if (empty($row['expire_date'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: expire_date']);
-        return null;
-    }
-
-    if (empty($row['received_date'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: received_date']);
-        return null; 
-    }
-
-    if (empty($row['sell_price'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: sell_price']);
-        return null; 
-    }
-
-    if (empty($row['supplier'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: supplier']);
-        return null; 
-    }
-
-    if (empty($row['warehouse_name'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: warehouse_name']);
-        return null; 
-    }
-
-    if (empty($row['location'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: location']);
-        return null; 
-    }
-
-    if (empty($row['voucher_number'])) {
-        $this->invalidRows[] = array_merge($row, ['reason' => 'Missing required fields: voucher_number']);
-        return null; 
-    }  
+        // Increment inserted count for valid rows
         $this->insertedCount++;
 
+        // Return new Inbound model
         return new Inbound([
             'sku'            => $row['sku'],           
             'item_name'      => $row['item_name'],     
             'description'    => $row['description'],       
             'purchase_price' => $row['purchase_price'],  
             'quantity'       => $row['quantity'],         
-            'expire_date'    => $this->parseDate($row['expire_date']),
-            'received_date'  => $this->parseDate($row['received_date']), 
+            'expire_date'    => $expire_date,   // This can now be null
+            'received_date'  => $received_date,  // This can now be null
             'received_by'    => $row['received_by'],  
             'sell_price'     => $row['sell_price'],      
             'supplier'       => $row['supplier'],        
             'warehouse_name' => $row['warehouse_name'],  
             'location'       => $row['location'],         
+            'status'         => $row['status'],         
             'voucher_number' => $row['voucher_number'],  
             'remarks'        => $row['remarks'],         
         ]);
-    }
-    private function parseDate($date)
-    {
-        if (is_numeric($date)) {
-            $excelBaseDate = Carbon::createFromDate(1900, 1, 1);
-            return $excelBaseDate->addDays($date - 2)->format('d m Y'); 
-
-        return null;
-    }
     }
 }

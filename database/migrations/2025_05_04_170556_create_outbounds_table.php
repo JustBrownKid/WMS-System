@@ -11,23 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inbounds', function (Blueprint $table) {
+        Schema::create('outbounds', function (Blueprint $table) {
             $table->id();
             $table->string('sku')->nullable();
             $table->string('item_name')->nullable();
             $table->text('description')->nullable();
-            $table->integer('purchase_price')->nullable();
             $table->integer('quantity')->nullable();
-            $table->date('expire_date')->nullable();
-            $table->date('received_date')->nullable();
-            
-            $table->string('received_by')->nullable();
-            $table->integer('sell_price')->nullable();
-            $table->string('supplier')->nullable();
-            $table->string('warehouse_name')->nullable();
-            $table->string('location')->nullable();
-            $table->string('status')->default('Available');
-            $table->string('voucher_number')->nullable();
+            $table->string('from_warehouse')->nullable();
+            $table->string('from_location')->nullable();
+            $table->text('dispatch_date')->nullable();
+            $table->string('dispatched_by')->nullable();
+            $table->string('recipient')->nullable();
+            $table->string('destination')->nullable();
+            $table->string('status')->default('Dispatched');
+            $table->string('reference_number')->nullable();
             $table->text('remarks')->nullable();
             $table->timestamps();
         });
@@ -38,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inbounds');
+        Schema::dropIfExists('outbounds');
     }
 };

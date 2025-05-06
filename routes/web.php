@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InboundController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\OutboundController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,10 +27,15 @@ Route::get('/inbounds',function(){
     return view('Inbound.Create');})->name('inbounds');
 Route::post('inbounds/import', [InboundController::class, 'store'])->name('inbounds.store');
 Route::get('inbounds/download-invalid', [InboundController::class, 'downloadInvalid'])->name('inbounds.downloadInvalid');
-Route::get('/location/list', [InboundController::class, 'index'])->name('inbounds.list');
-Route::get('/location/{id}/edit', [InboundController::class, 'edit'])->name('inbounds.edit');
-Route::put('/location/{id}/edit', [InboundController::class, 'update'])->name('inbounds.update');
+Route::get('/inbounds/list', [InboundController::class, 'index'])->name('inbounds.list');
+Route::get('/inbounds/{id}/edit', [InboundController::class, 'edit'])->name('inbounds.edit');
+Route::put('/inbounds/{id}/edit', [InboundController::class, 'update'])->name('inbounds.update');
 
+Route::get('/outbounds', [OutboundController::class, 'create'])->name('outbounds.gg');
+
+Route::get('/outbounds/list', [OutboundController::class, 'index'])->name('outbounds.list');
+Route::post('/outbounds/import', [OutboundController::class, 'store'])->name('outbounds.store');
+Route::get('/outbounds/download-invalid', [OutboundController::class, 'downloadInvalid'])->name('outbounds.downloadInvalid');
 
 
 Route::get('/dashboard', function () {

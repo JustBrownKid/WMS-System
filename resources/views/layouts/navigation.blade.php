@@ -15,11 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('location.list')" :active="request()->routeIs('location')">
+                    <x-nav-link :href="route('location.list')" :active="request()->routeIs('location.list')">
                         {{ __('Location') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('inbounds')" :active="request()->routeIs('location')">
+                    <x-nav-link :href="route('inbounds.list')" :active="request()->routeIs('inbounds.list')">
                         {{ __('Inbound') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('outbounds.list')" :active="request()->routeIs('outbounds.list')">
+                        {{ __('Outbound') }}
                     </x-nav-link>
                 </div>
             </div>
