@@ -29,7 +29,6 @@
 <nav class="bg-gray-800 text-white shadow  px-20">
   <div class="container mx-auto px-4 py-4 flex items-center justify-between">
 
-    <!-- Breadcrumb -->
     <ol class="flex text-sm font-medium space-x-2 text-gray-300">
       <li class="flex items-center">
         <a href="{{ route('dashboard') }}" class="hover:text-white transition-colors duration-200">Dashboard</a>
